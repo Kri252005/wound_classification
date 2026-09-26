@@ -4,15 +4,7 @@ from pathlib import Path
 from typing import Any
 
 import numpy as np
-import tensorflow as tf
 from tensorflow import keras
-
-from backend.config import (
-    ARCHITECTURE_PATH,
-    CLASS_NAMES,
-    METADATA_PATH,
-    WEIGHTS_PATH,
-)
 
 
 class ModelUnavailableError(RuntimeError):
@@ -21,130 +13,195 @@ class ModelUnavailableError(RuntimeError):
 
 class WoundModelService:
     """
-    Inference service for the WoundScope model.
+    Two-stage wound classification service.
 
-    The model accepts:
-        [0, 255] RGB images
+    Stage 1:
+    model -> Wound / Not Wound
 
-    Expected input:
+    Stage 2:
+    m_model -> Six wound classes
+
+    Both models accept:
         (None, 224, 224, 3)
-
-    The current saved model may produce a single output value.
     """
 
     def __init__(self) -> None:
-        self.model: keras.Model | None = None
-        self.metadata: dict[str, Any] = {}
-        self.class_names: tuple[str, ...] = CLASS_NAMES
+        self.wound_model: keras.Model | None = None
+        self.classification_model: keras.Model | None = None
+
+        self.wound_metadata: dict[str, Any] = {}
+        self.classification_metadata: dict[str, Any] = {}
+
+        self.class_names = (
+            "Abrasions",
+            "Bruises",
+            "Burns",
+            "Cut",
+            "Laceration",
+            "Stab_wound",
+        )
+
+        # backend/
+        self.backend_dir = Path(__file__).resolve().parents[1]
+
+        
+        # backend/model/ → Wound / Not Wound model
+        self.wound_model_dir = self.backend_dir / "model"
+
+        # backend/m_model/ → 6-class wound model
+        self.classification_model_dir = self.backend_dir / "m_model"
+
+    # =========================================================
+    # LOAD BOTH MODELS
+    # =========================================================
 
     def load(self) -> None:
-        # ---------------------------------------------------------
-        # 1. Check that all model files exist
-        # ---------------------------------------------------------
+        print("Loading WoundScope models...")
+
+        # -----------------------------------------------------
+        # Stage 1: Wound / Not Wound model
+        # -----------------------------------------------------
+        self.wound_model, self.wound_metadata = self._load_single_model(
+            self.wound_model_dir,
+            "wound detection model",
+        )
+
+        # -----------------------------------------------------
+        # Stage 2: Six-class wound classification model
+        # -----------------------------------------------------
+        self.classification_model, self.classification_metadata = (
+            self._load_single_model(
+                self.classification_model_dir,
+                "wound classification model",
+            )
+        )
+
+        # -----------------------------------------------------
+        # Validate inputs
+        # -----------------------------------------------------
+        if self.wound_model.input_shape != (None, 224, 224, 3):
+            raise ModelUnavailableError(
+                f"Unexpected wound model input shape: "
+                f"{self.wound_model.input_shape}"
+            )
+
+        if self.classification_model.input_shape != (
+            None,
+            224,
+            224,
+            3,
+        ):
+            raise ModelUnavailableError(
+                f"Unexpected classification model input shape: "
+                f"{self.classification_model.input_shape}"
+            )
+
+        print(
+            f"Wound model input: {self.wound_model.input_shape}"
+        )
+        print(
+            f"Wound model output: {self.wound_model.output_shape}"
+        )
+
+        print(
+            f"Classification model input: "
+            f"{self.classification_model.input_shape}"
+        )
+        print(
+            f"Classification model output: "
+            f"{self.classification_model.output_shape}"
+        )
+
+        print("WoundScope models loaded successfully.")
+
+    # =========================================================
+    # LOAD ONE MODEL
+    # =========================================================
+
+    def _load_single_model(
+        self,
+        model_dir: Path,
+        model_name: str,
+    ) -> tuple[keras.Model, dict[str, Any]]:
+
+        weights_path = model_dir / "model.weights.h5"
+        config_path = model_dir / "config.json"
+        metadata_path = model_dir / "metadata.json"
+
+        # -----------------------------------------------------
+        # Check files
+        # -----------------------------------------------------
         for path in (
-            WEIGHTS_PATH,
-            ARCHITECTURE_PATH,
-            METADATA_PATH,
+            weights_path,
+            config_path,
+            metadata_path,
         ):
             if not path.is_file():
                 raise ModelUnavailableError(
-                    f"Required model artifact is missing: {path.name}"
+                    f"{model_name}: missing {path}"
                 )
 
-        # ---------------------------------------------------------
-        # 2. Load metadata
-        # ---------------------------------------------------------
-        self.metadata = json.loads(
-            METADATA_PATH.read_text(encoding="utf-8")
-        )
-
-        # ---------------------------------------------------------
-        # 3. Load architecture
-        # ---------------------------------------------------------
-        config = json.loads(
-            ARCHITECTURE_PATH.read_text(encoding="utf-8")
-        )
-
-        self._validate_class_mapping(config)
-
-        # ---------------------------------------------------------
-        # 4. Reconstruct model
-        # ---------------------------------------------------------
-        model = self._model_from_config(config)
-
-        # ---------------------------------------------------------
-        # 5. Load trained weights
-        # ---------------------------------------------------------
+        # -----------------------------------------------------
+        # Metadata
+        # -----------------------------------------------------
         try:
-            model.load_weights(WEIGHTS_PATH)
+            metadata = json.loads(
+                metadata_path.read_text(
+                    encoding="utf-8"
+                )
+            )
         except Exception as exc:
             raise ModelUnavailableError(
-                f"Unable to load model.weights.h5: {exc}"
+                f"Unable to read {metadata_path.name}: {exc}"
             ) from exc
 
-        # ---------------------------------------------------------
-        # 6. Validate input shape
-        # ---------------------------------------------------------
-        if model.input_shape != (None, 224, 224, 3):
-            raise ModelUnavailableError(
-                f"Unexpected model input shape: {model.input_shape}"
+        # -----------------------------------------------------
+        # Config
+        # -----------------------------------------------------
+        try:
+            config = json.loads(
+                config_path.read_text(
+                    encoding="utf-8"
+                )
             )
+        except Exception as exc:
+            raise ModelUnavailableError(
+                f"Unable to read {config_path.name}: {exc}"
+            ) from exc
 
-        # ---------------------------------------------------------
-        # IMPORTANT:
-        # Do NOT require output_shape == (None, 6)
-        #
-        # Your new model currently reports:
-        # (None, 1)
-        # ---------------------------------------------------------
-        print(f"Model input shape: {model.input_shape}")
-        print(f"Model output shape: {model.output_shape}")
-
-        self.model = model
-
-    def _validate_class_mapping(
-        self,
-        config: dict[str, Any]
-    ) -> None:
-
-        supplied = (
-            self.metadata.get("class_names")
-            or self.metadata.get("classes")
-            or config.get("class_names")
+        # -----------------------------------------------------
+        # Reconstruct model
+        # -----------------------------------------------------
+        model = self._model_from_config(
+            config,
+            model_dir.name,
         )
 
-        if isinstance(supplied, dict):
-            try:
-                supplied = [
-                    supplied[str(index)]
-                    if str(index) in supplied
-                    else supplied[index]
-                    for index in range(len(supplied))
-                ]
-            except KeyError as exc:
-                raise ModelUnavailableError(
-                    "Metadata class indices must be contiguous from 0."
-                ) from exc
+        # -----------------------------------------------------
+        # Load weights
+        # -----------------------------------------------------
+        try:
+            model.load_weights(weights_path)
+        except Exception as exc:
+            raise ModelUnavailableError(
+                f"Unable to load weights for {model_name}: {exc}"
+            ) from exc
 
-        if supplied:
-            if (
-                not isinstance(supplied, list)
-                or not all(isinstance(name, str) for name in supplied)
-            ):
-                raise ModelUnavailableError(
-                    "Metadata class_names must be an ordered list of strings."
-                )
+        return model, metadata
 
-            self.class_names = tuple(supplied)
+    # =========================================================
+    # RECONSTRUCT MODEL
+    # =========================================================
 
     def _model_from_config(
         self,
-        config: dict[str, Any]
+        config: dict[str, Any],
+        model_type: str,
     ) -> keras.Model:
 
-        # ---------------------------------------------------------
-        # Prefer complete serialized Keras configuration
-        # ---------------------------------------------------------
+        # -----------------------------------------------------
+        # Prefer complete serialized Keras model
+        # -----------------------------------------------------
         serialized = (
             config.get("model_config")
             or config.get("keras_model")
@@ -169,14 +226,9 @@ class WoundModelService:
                 json.dumps(config)
             )
 
-        # ---------------------------------------------------------
+        # -----------------------------------------------------
         # Fallback architecture
-        #
-        # NOTE:
-        # This is only used when config.json does NOT contain
-        # the complete serialized model.
-        # ---------------------------------------------------------
-
+        # -----------------------------------------------------
         augmentation = keras.Sequential(
             [
                 keras.layers.RandomFlip("horizontal"),
@@ -206,114 +258,203 @@ class WoundModelService:
 
         x = keras.layers.Dense(
             128,
-            activation="relu"
+            activation="relu",
         )(x)
 
         x = keras.layers.BatchNormalization()(x)
 
         x = keras.layers.Dropout(0.3)(x)
 
-        # ---------------------------------------------------------
-        # IMPORTANT:
-        # We do NOT create Dense(6, softmax) here anymore.
-        #
-        # The new model's actual output must come from its
-        # serialized config.
-        # ---------------------------------------------------------
+        # -----------------------------------------------------
+        # m_model = binary wound detector
+        # -----------------------------------------------------
+        if model_type == "model":
+            outputs = keras.layers.Dense(
+                1,
+                activation="sigmoid",
+            )(x)
 
-        outputs = keras.layers.Dense(
-            1,
-            activation="sigmoid"
-        )(x)
+        # -----------------------------------------------------
+        # model = six-class wound classifier
+        # -----------------------------------------------------
+        else:
+            outputs = keras.layers.Dense(
+                6,
+                activation="softmax",
+            )(x)
 
         return keras.Model(
             inputs,
             outputs,
-            name="woundscope_densenet169",
+            name=f"woundscope_{model_type}",
         )
+
+    # =========================================================
+    # PREDICTION
+    # =========================================================
 
     def predict(
         self,
-        image: np.ndarray
-    ) -> tuple[np.ndarray, float]:
+        image: np.ndarray,
+    ) -> tuple[dict[str, Any], float]:
 
-        if self.model is None:
+        if self.wound_model is None:
             raise ModelUnavailableError(
-                "Classification model is currently unavailable."
+                "Wound detection model is unavailable."
+            )
+
+        if self.classification_model is None:
+            raise ModelUnavailableError(
+                "Wound classification model is unavailable."
             )
 
         started = time.perf_counter()
 
-        result = self.model.predict(
+        # =====================================================
+        # STAGE 1
+        # WOUND / NOT WOUND
+        # =====================================================
+
+        wound_result = self.wound_model.predict(
             image,
-            verbose=0
+            verbose=0,
+        )
+
+        wound_result = np.asarray(
+            wound_result,
+            dtype=np.float64,
+        )
+
+        print(
+            f"Wound model output: {wound_result}"
+        )
+
+        if wound_result.shape != (1, 1):
+            raise ModelUnavailableError(
+                f"Unexpected wound model output shape: "
+                f"{wound_result.shape}"
+            )
+
+        wound_probability = float(
+            wound_result[0][0]
+        )
+
+        if not np.isfinite(wound_probability):
+            raise ModelUnavailableError(
+                "Wound model returned an invalid value."
+            )
+
+        # =====================================================
+        # THRESHOLD
+        # =====================================================
+
+        is_wound = wound_probability >= 0.5
+
+        # =====================================================
+        # NOT A WOUND
+        # =====================================================
+
+        if not is_wound:
+            elapsed = (
+                time.perf_counter() - started
+            ) * 1000
+
+            return {
+                "is_wound": False,
+                "class": "Not a Wound",
+                "class_index": -1,
+                "confidence": float(
+                    1.0 - wound_probability
+                ),
+                "probabilities": [
+                    {
+                        "class": name,
+                        "class_index": index,
+                        "probability": 0.0,
+                    }
+                    for index, name
+                    in enumerate(self.class_names)
+                ],
+            }, elapsed
+
+        # =====================================================
+        # STAGE 2
+        # SIX-CLASS WOUND CLASSIFICATION
+        # =====================================================
+
+        classification_result = (
+            self.classification_model.predict(
+                image,
+                verbose=0,
+            )
+        )
+
+        values = np.asarray(
+            classification_result,
+            dtype=np.float64,
+        )
+
+        print(
+            f"Classification model output: {values}"
+        )
+
+        if values.shape != (1, 6):
+            raise ModelUnavailableError(
+                f"Unexpected classification model output shape: "
+                f"{values.shape}"
+            )
+
+        probabilities = values[0]
+
+        if not np.isfinite(probabilities).all():
+            raise ModelUnavailableError(
+                "Classification model returned invalid values."
+            )
+
+        if np.any(probabilities < 0):
+            raise ModelUnavailableError(
+                "Classification model returned negative probabilities."
+            )
+
+        # -----------------------------------------------------
+        # Normalize if necessary
+        # -----------------------------------------------------
+        total = probabilities.sum()
+
+        if total <= 0:
+            raise ModelUnavailableError(
+                "Classification model returned zero probabilities."
+            )
+
+        probabilities = probabilities / total
+
+        winner = int(
+            np.argmax(probabilities)
         )
 
         elapsed = (
             time.perf_counter() - started
         ) * 1000
 
-        # ---------------------------------------------------------
-        # Convert model output to numpy
-        # ---------------------------------------------------------
-        raw = np.asarray(
-            result,
-            dtype=np.float64
-        )
-
-        print(
-            f"Raw model output shape: {raw.shape}"
-        )
-
-        print(
-            f"Raw model output: {raw}"
-        )
-
-        # ---------------------------------------------------------
-        # Expected current output:
-        #
-        # (batch_size, 1)
-        #
-        # Example:
-        # [[0.83]]
-        # ---------------------------------------------------------
-        if raw.ndim != 2 or raw.shape[0] != 1:
-            raise ModelUnavailableError(
-                f"Unexpected prediction shape: {raw.shape}"
-            )
-
-        if raw.shape[1] != 1:
-            raise ModelUnavailableError(
-                f"Expected one model output value, got: {raw.shape}"
-            )
-
-        value = float(raw[0][0])
-
-        if not np.isfinite(value):
-            raise ModelUnavailableError(
-                "Model returned an invalid prediction."
-            )
-
-        # ---------------------------------------------------------
-        # Convert single output into a temporary result.
-        #
-        # This part will be finalized after confirming what the
-        # single output represents in the new model.
-        # ---------------------------------------------------------
-
-        if value >= 0.5:
-            predicted_class = self.class_names[0]
-        else:
-            predicted_class = self.class_names[0]
-
-        values = np.zeros(
-            len(self.class_names),
-            dtype=np.float64
-        )
-
-        values[0] = value
-
-        return values, elapsed
+        return {
+            "is_wound": True,
+            "class": self.class_names[winner],
+            "class_index": winner,
+            "confidence": float(
+                probabilities[winner]
+            ),
+            "probabilities": [
+                {
+                    "class": name,
+                    "class_index": index,
+                    "probability": float(
+                        probabilities[index]
+                    ),
+                }
+                for index, name
+                in enumerate(self.class_names)
+            ],
+        }, elapsed
 
 
 model_service = WoundModelService()
