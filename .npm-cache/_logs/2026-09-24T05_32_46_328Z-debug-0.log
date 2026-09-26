@@ -1,0 +1,299 @@
+0 verbose cli C:\Program Files\nodejs\node.exe C:\Program Files\nodejs\node_modules\npm\bin\npm-cli.js
+1 info using npm@10.9.2
+2 info using node@v22.15.0
+3 silly config load:file:C:\Program Files\nodejs\node_modules\npm\npmrc
+4 silly config load:file:C:\Users\kri20\Documents\Codex\2026-09-01\build-x20\.npmrc
+5 silly config load:file:C:\Users\kri20\.npmrc
+6 silly config load:file:C:\Users\kri20\AppData\Roaming\npm\etc\npmrc
+7 verbose title npm install
+8 verbose argv "install" "--cache" ".npm-cache" "--no-audit" "--no-fund"
+9 verbose logfile logs-max:10 dir:C:\Users\kri20\Documents\Codex\2026-09-01\build-x20\.npm-cache\_logs\2026-09-24T05_32_46_328Z-
+10 verbose logfile C:\Users\kri20\Documents\Codex\2026-09-01\build-x20\.npm-cache\_logs\2026-09-24T05_32_46_328Z-debug-0.log
+11 silly logfile done cleaning log files
+12 silly packumentCache heap:4345298944 maxSize:1086324736 maxEntrySize:543162368
+13 silly idealTree buildDeps
+14 silly fetch manifest @types/react@18.3.3
+15 silly packumentCache full:https://registry.npmjs.org/@types%2freact cache-miss
+16 verbose shrinkwrap failed to load node_modules/.package-lock.json out of date, updated: node_modules
+17 http fetch GET 200 https://registry.npmjs.org/npm 859ms
+18 http fetch GET 200 https://registry.npmjs.org/@types%2freact 827ms (cache miss)
+19 silly packumentCache full:https://registry.npmjs.org/@types%2freact set size:undefined disposed:false
+20 silly fetch manifest @types/react-dom@18.3.0
+21 silly packumentCache full:https://registry.npmjs.org/@types%2freact-dom cache-miss
+22 http fetch GET 200 https://registry.npmjs.org/@types%2freact-dom 87ms (cache miss)
+23 silly packumentCache full:https://registry.npmjs.org/@types%2freact-dom set size:undefined disposed:false
+24 silly placeDep ROOT @types/react@18.3.3 OK for: woundscope-forensic-ui@1.0.0 want: 18.3.3
+25 silly placeDep ROOT @types/react-dom@18.3.0 OK for: woundscope-forensic-ui@1.0.0 want: 18.3.0
+26 silly fetch manifest csstype@^3.0.2
+27 silly packumentCache full:https://registry.npmjs.org/csstype cache-miss
+28 silly fetch manifest @types/prop-types@*
+29 silly packumentCache full:https://registry.npmjs.org/@types%2fprop-types cache-miss
+30 http fetch GET 200 https://registry.npmjs.org/@types%2fprop-types 71ms (cache miss)
+31 silly packumentCache full:https://registry.npmjs.org/@types%2fprop-types set size:undefined disposed:false
+32 http fetch GET 200 https://registry.npmjs.org/csstype 103ms (cache miss)
+33 silly packumentCache full:https://registry.npmjs.org/csstype set size:undefined disposed:false
+34 silly placeDep ROOT @types/prop-types@15.7.15 OK for: @types/react@18.3.3 want: *
+35 silly placeDep ROOT csstype@3.2.3 OK for: @types/react@18.3.3 want: ^3.0.2
+36 silly reify moves {}
+37 verbose reify failed optional dependency C:\Users\kri20\Documents\Codex\2026-09-01\build-x20\node_modules\fsevents
+38 silly reify mark deleted [
+38 silly reify   'C:\\Users\\kri20\\Documents\\Codex\\2026-09-01\\build-x20\\node_modules\\fsevents'
+38 silly reify ]
+39 verbose reify failed optional dependency C:\Users\kri20\Documents\Codex\2026-09-01\build-x20\node_modules\@rollup\rollup-win32-ia32-msvc
+40 silly reify mark deleted [
+40 silly reify   'C:\\Users\\kri20\\Documents\\Codex\\2026-09-01\\build-x20\\node_modules\\@rollup\\rollup-win32-ia32-msvc'
+40 silly reify ]
+41 verbose reify failed optional dependency C:\Users\kri20\Documents\Codex\2026-09-01\build-x20\node_modules\@rollup\rollup-win32-arm64-msvc
+42 silly reify mark deleted [
+42 silly reify   'C:\\Users\\kri20\\Documents\\Codex\\2026-09-01\\build-x20\\node_modules\\@rollup\\rollup-win32-arm64-msvc'
+42 silly reify ]
+43 verbose reify failed optional dependency C:\Users\kri20\Documents\Codex\2026-09-01\build-x20\node_modules\@rollup\rollup-openharmony-arm64
+44 silly reify mark deleted [
+44 silly reify   'C:\\Users\\kri20\\Documents\\Codex\\2026-09-01\\build-x20\\node_modules\\@rollup\\rollup-openharmony-arm64'
+44 silly reify ]
+45 verbose reify failed optional dependency C:\Users\kri20\Documents\Codex\2026-09-01\build-x20\node_modules\@rollup\rollup-openbsd-x64
+46 silly reify mark deleted [
+46 silly reify   'C:\\Users\\kri20\\Documents\\Codex\\2026-09-01\\build-x20\\node_modules\\@rollup\\rollup-openbsd-x64'
+46 silly reify ]
+47 verbose reify failed optional dependency C:\Users\kri20\Documents\Codex\2026-09-01\build-x20\node_modules\@rollup\rollup-linux-x64-musl
+48 silly reify mark deleted [
+48 silly reify   'C:\\Users\\kri20\\Documents\\Codex\\2026-09-01\\build-x20\\node_modules\\@rollup\\rollup-linux-x64-musl'
+48 silly reify ]
+49 verbose reify failed optional dependency C:\Users\kri20\Documents\Codex\2026-09-01\build-x20\node_modules\@rollup\rollup-linux-x64-gnu
+50 silly reify mark deleted [
+50 silly reify   'C:\\Users\\kri20\\Documents\\Codex\\2026-09-01\\build-x20\\node_modules\\@rollup\\rollup-linux-x64-gnu'
+50 silly reify ]
+51 verbose reify failed optional dependency C:\Users\kri20\Documents\Codex\2026-09-01\build-x20\node_modules\@rollup\rollup-linux-s390x-gnu
+52 silly reify mark deleted [
+52 silly reify   'C:\\Users\\kri20\\Documents\\Codex\\2026-09-01\\build-x20\\node_modules\\@rollup\\rollup-linux-s390x-gnu'
+52 silly reify ]
+53 verbose reify failed optional dependency C:\Users\kri20\Documents\Codex\2026-09-01\build-x20\node_modules\@rollup\rollup-linux-riscv64-musl
+54 silly reify mark deleted [
+54 silly reify   'C:\\Users\\kri20\\Documents\\Codex\\2026-09-01\\build-x20\\node_modules\\@rollup\\rollup-linux-riscv64-musl'
+54 silly reify ]
+55 verbose reify failed optional dependency C:\Users\kri20\Documents\Codex\2026-09-01\build-x20\node_modules\@rollup\rollup-linux-riscv64-gnu
+56 silly reify mark deleted [
+56 silly reify   'C:\\Users\\kri20\\Documents\\Codex\\2026-09-01\\build-x20\\node_modules\\@rollup\\rollup-linux-riscv64-gnu'
+56 silly reify ]
+57 verbose reify failed optional dependency C:\Users\kri20\Documents\Codex\2026-09-01\build-x20\node_modules\@rollup\rollup-linux-ppc64-musl
+58 silly reify mark deleted [
+58 silly reify   'C:\\Users\\kri20\\Documents\\Codex\\2026-09-01\\build-x20\\node_modules\\@rollup\\rollup-linux-ppc64-musl'
+58 silly reify ]
+59 verbose reify failed optional dependency C:\Users\kri20\Documents\Codex\2026-09-01\build-x20\node_modules\@rollup\rollup-linux-ppc64-gnu
+60 silly reify mark deleted [
+60 silly reify   'C:\\Users\\kri20\\Documents\\Codex\\2026-09-01\\build-x20\\node_modules\\@rollup\\rollup-linux-ppc64-gnu'
+60 silly reify ]
+61 verbose reify failed optional dependency C:\Users\kri20\Documents\Codex\2026-09-01\build-x20\node_modules\@rollup\rollup-linux-loong64-musl
+62 silly reify mark deleted [
+62 silly reify   'C:\\Users\\kri20\\Documents\\Codex\\2026-09-01\\build-x20\\node_modules\\@rollup\\rollup-linux-loong64-musl'
+62 silly reify ]
+63 verbose reify failed optional dependency C:\Users\kri20\Documents\Codex\2026-09-01\build-x20\node_modules\@rollup\rollup-linux-loong64-gnu
+64 silly reify mark deleted [
+64 silly reify   'C:\\Users\\kri20\\Documents\\Codex\\2026-09-01\\build-x20\\node_modules\\@rollup\\rollup-linux-loong64-gnu'
+64 silly reify ]
+65 verbose reify failed optional dependency C:\Users\kri20\Documents\Codex\2026-09-01\build-x20\node_modules\@rollup\rollup-linux-arm64-musl
+66 silly reify mark deleted [
+66 silly reify   'C:\\Users\\kri20\\Documents\\Codex\\2026-09-01\\build-x20\\node_modules\\@rollup\\rollup-linux-arm64-musl'
+66 silly reify ]
+67 verbose reify failed optional dependency C:\Users\kri20\Documents\Codex\2026-09-01\build-x20\node_modules\@rollup\rollup-linux-arm64-gnu
+68 silly reify mark deleted [
+68 silly reify   'C:\\Users\\kri20\\Documents\\Codex\\2026-09-01\\build-x20\\node_modules\\@rollup\\rollup-linux-arm64-gnu'
+68 silly reify ]
+69 verbose reify failed optional dependency C:\Users\kri20\Documents\Codex\2026-09-01\build-x20\node_modules\@rollup\rollup-linux-arm-musleabihf
+70 silly reify mark deleted [
+70 silly reify   'C:\\Users\\kri20\\Documents\\Codex\\2026-09-01\\build-x20\\node_modules\\@rollup\\rollup-linux-arm-musleabihf'
+70 silly reify ]
+71 verbose reify failed optional dependency C:\Users\kri20\Documents\Codex\2026-09-01\build-x20\node_modules\@rollup\rollup-linux-arm-gnueabihf
+72 silly reify mark deleted [
+72 silly reify   'C:\\Users\\kri20\\Documents\\Codex\\2026-09-01\\build-x20\\node_modules\\@rollup\\rollup-linux-arm-gnueabihf'
+72 silly reify ]
+73 verbose reify failed optional dependency C:\Users\kri20\Documents\Codex\2026-09-01\build-x20\node_modules\@rollup\rollup-freebsd-x64
+74 silly reify mark deleted [
+74 silly reify   'C:\\Users\\kri20\\Documents\\Codex\\2026-09-01\\build-x20\\node_modules\\@rollup\\rollup-freebsd-x64'
+74 silly reify ]
+75 verbose reify failed optional dependency C:\Users\kri20\Documents\Codex\2026-09-01\build-x20\node_modules\@rollup\rollup-freebsd-arm64
+76 silly reify mark deleted [
+76 silly reify   'C:\\Users\\kri20\\Documents\\Codex\\2026-09-01\\build-x20\\node_modules\\@rollup\\rollup-freebsd-arm64'
+76 silly reify ]
+77 verbose reify failed optional dependency C:\Users\kri20\Documents\Codex\2026-09-01\build-x20\node_modules\@rollup\rollup-darwin-x64
+78 silly reify mark deleted [
+78 silly reify   'C:\\Users\\kri20\\Documents\\Codex\\2026-09-01\\build-x20\\node_modules\\@rollup\\rollup-darwin-x64'
+78 silly reify ]
+79 verbose reify failed optional dependency C:\Users\kri20\Documents\Codex\2026-09-01\build-x20\node_modules\@rollup\rollup-darwin-arm64
+80 silly reify mark deleted [
+80 silly reify   'C:\\Users\\kri20\\Documents\\Codex\\2026-09-01\\build-x20\\node_modules\\@rollup\\rollup-darwin-arm64'
+80 silly reify ]
+81 verbose reify failed optional dependency C:\Users\kri20\Documents\Codex\2026-09-01\build-x20\node_modules\@rollup\rollup-android-arm64
+82 silly reify mark deleted [
+82 silly reify   'C:\\Users\\kri20\\Documents\\Codex\\2026-09-01\\build-x20\\node_modules\\@rollup\\rollup-android-arm64'
+82 silly reify ]
+83 verbose reify failed optional dependency C:\Users\kri20\Documents\Codex\2026-09-01\build-x20\node_modules\@rollup\rollup-android-arm-eabi
+84 silly reify mark deleted [
+84 silly reify   'C:\\Users\\kri20\\Documents\\Codex\\2026-09-01\\build-x20\\node_modules\\@rollup\\rollup-android-arm-eabi'
+84 silly reify ]
+85 verbose reify failed optional dependency C:\Users\kri20\Documents\Codex\2026-09-01\build-x20\node_modules\@napi-rs\lzma-linux-x64-gnu
+86 silly reify mark deleted [
+86 silly reify   'C:\\Users\\kri20\\Documents\\Codex\\2026-09-01\\build-x20\\node_modules\\@napi-rs\\lzma-linux-x64-gnu'
+86 silly reify ]
+87 verbose reify failed optional dependency C:\Users\kri20\Documents\Codex\2026-09-01\build-x20\node_modules\@esbuild\win32-ia32
+88 silly reify mark deleted [
+88 silly reify   'C:\\Users\\kri20\\Documents\\Codex\\2026-09-01\\build-x20\\node_modules\\@esbuild\\win32-ia32'
+88 silly reify ]
+89 verbose reify failed optional dependency C:\Users\kri20\Documents\Codex\2026-09-01\build-x20\node_modules\@esbuild\win32-arm64
+90 silly reify mark deleted [
+90 silly reify   'C:\\Users\\kri20\\Documents\\Codex\\2026-09-01\\build-x20\\node_modules\\@esbuild\\win32-arm64'
+90 silly reify ]
+91 verbose reify failed optional dependency C:\Users\kri20\Documents\Codex\2026-09-01\build-x20\node_modules\@esbuild\sunos-x64
+92 silly reify mark deleted [
+92 silly reify   'C:\\Users\\kri20\\Documents\\Codex\\2026-09-01\\build-x20\\node_modules\\@esbuild\\sunos-x64'
+92 silly reify ]
+93 verbose reify failed optional dependency C:\Users\kri20\Documents\Codex\2026-09-01\build-x20\node_modules\@esbuild\openbsd-x64
+94 silly reify mark deleted [
+94 silly reify   'C:\\Users\\kri20\\Documents\\Codex\\2026-09-01\\build-x20\\node_modules\\@esbuild\\openbsd-x64'
+94 silly reify ]
+95 verbose reify failed optional dependency C:\Users\kri20\Documents\Codex\2026-09-01\build-x20\node_modules\@esbuild\netbsd-x64
+96 silly reify mark deleted [
+96 silly reify   'C:\\Users\\kri20\\Documents\\Codex\\2026-09-01\\build-x20\\node_modules\\@esbuild\\netbsd-x64'
+96 silly reify ]
+97 verbose reify failed optional dependency C:\Users\kri20\Documents\Codex\2026-09-01\build-x20\node_modules\@esbuild\linux-x64
+98 silly reify mark deleted [
+98 silly reify   'C:\\Users\\kri20\\Documents\\Codex\\2026-09-01\\build-x20\\node_modules\\@esbuild\\linux-x64'
+98 silly reify ]
+99 verbose reify failed optional dependency C:\Users\kri20\Documents\Codex\2026-09-01\build-x20\node_modules\@esbuild\linux-s390x
+100 silly reify mark deleted [
+100 silly reify   'C:\\Users\\kri20\\Documents\\Codex\\2026-09-01\\build-x20\\node_modules\\@esbuild\\linux-s390x'
+100 silly reify ]
+101 verbose reify failed optional dependency C:\Users\kri20\Documents\Codex\2026-09-01\build-x20\node_modules\@esbuild\linux-riscv64
+102 silly reify mark deleted [
+102 silly reify   'C:\\Users\\kri20\\Documents\\Codex\\2026-09-01\\build-x20\\node_modules\\@esbuild\\linux-riscv64'
+102 silly reify ]
+103 verbose reify failed optional dependency C:\Users\kri20\Documents\Codex\2026-09-01\build-x20\node_modules\@esbuild\linux-ppc64
+104 silly reify mark deleted [
+104 silly reify   'C:\\Users\\kri20\\Documents\\Codex\\2026-09-01\\build-x20\\node_modules\\@esbuild\\linux-ppc64'
+104 silly reify ]
+105 verbose reify failed optional dependency C:\Users\kri20\Documents\Codex\2026-09-01\build-x20\node_modules\@esbuild\linux-mips64el
+106 silly reify mark deleted [
+106 silly reify   'C:\\Users\\kri20\\Documents\\Codex\\2026-09-01\\build-x20\\node_modules\\@esbuild\\linux-mips64el'
+106 silly reify ]
+107 verbose reify failed optional dependency C:\Users\kri20\Documents\Codex\2026-09-01\build-x20\node_modules\@esbuild\linux-loong64
+108 silly reify mark deleted [
+108 silly reify   'C:\\Users\\kri20\\Documents\\Codex\\2026-09-01\\build-x20\\node_modules\\@esbuild\\linux-loong64'
+108 silly reify ]
+109 verbose reify failed optional dependency C:\Users\kri20\Documents\Codex\2026-09-01\build-x20\node_modules\@esbuild\linux-ia32
+110 silly reify mark deleted [
+110 silly reify   'C:\\Users\\kri20\\Documents\\Codex\\2026-09-01\\build-x20\\node_modules\\@esbuild\\linux-ia32'
+110 silly reify ]
+111 verbose reify failed optional dependency C:\Users\kri20\Documents\Codex\2026-09-01\build-x20\node_modules\@esbuild\linux-arm64
+112 silly reify mark deleted [
+112 silly reify   'C:\\Users\\kri20\\Documents\\Codex\\2026-09-01\\build-x20\\node_modules\\@esbuild\\linux-arm64'
+112 silly reify ]
+113 verbose reify failed optional dependency C:\Users\kri20\Documents\Codex\2026-09-01\build-x20\node_modules\@esbuild\linux-arm
+114 silly reify mark deleted [
+114 silly reify   'C:\\Users\\kri20\\Documents\\Codex\\2026-09-01\\build-x20\\node_modules\\@esbuild\\linux-arm'
+114 silly reify ]
+115 verbose reify failed optional dependency C:\Users\kri20\Documents\Codex\2026-09-01\build-x20\node_modules\@esbuild\freebsd-x64
+116 silly reify mark deleted [
+116 silly reify   'C:\\Users\\kri20\\Documents\\Codex\\2026-09-01\\build-x20\\node_modules\\@esbuild\\freebsd-x64'
+116 silly reify ]
+117 verbose reify failed optional dependency C:\Users\kri20\Documents\Codex\2026-09-01\build-x20\node_modules\@esbuild\freebsd-arm64
+118 silly reify mark deleted [
+118 silly reify   'C:\\Users\\kri20\\Documents\\Codex\\2026-09-01\\build-x20\\node_modules\\@esbuild\\freebsd-arm64'
+118 silly reify ]
+119 verbose reify failed optional dependency C:\Users\kri20\Documents\Codex\2026-09-01\build-x20\node_modules\@esbuild\darwin-x64
+120 silly reify mark deleted [
+120 silly reify   'C:\\Users\\kri20\\Documents\\Codex\\2026-09-01\\build-x20\\node_modules\\@esbuild\\darwin-x64'
+120 silly reify ]
+121 verbose reify failed optional dependency C:\Users\kri20\Documents\Codex\2026-09-01\build-x20\node_modules\@esbuild\darwin-arm64
+122 silly reify mark deleted [
+122 silly reify   'C:\\Users\\kri20\\Documents\\Codex\\2026-09-01\\build-x20\\node_modules\\@esbuild\\darwin-arm64'
+122 silly reify ]
+123 verbose reify failed optional dependency C:\Users\kri20\Documents\Codex\2026-09-01\build-x20\node_modules\@esbuild\android-x64
+124 silly reify mark deleted [
+124 silly reify   'C:\\Users\\kri20\\Documents\\Codex\\2026-09-01\\build-x20\\node_modules\\@esbuild\\android-x64'
+124 silly reify ]
+125 verbose reify failed optional dependency C:\Users\kri20\Documents\Codex\2026-09-01\build-x20\node_modules\@esbuild\android-arm64
+126 silly reify mark deleted [
+126 silly reify   'C:\\Users\\kri20\\Documents\\Codex\\2026-09-01\\build-x20\\node_modules\\@esbuild\\android-arm64'
+126 silly reify ]
+127 verbose reify failed optional dependency C:\Users\kri20\Documents\Codex\2026-09-01\build-x20\node_modules\@esbuild\android-arm
+128 silly reify mark deleted [
+128 silly reify   'C:\\Users\\kri20\\Documents\\Codex\\2026-09-01\\build-x20\\node_modules\\@esbuild\\android-arm'
+128 silly reify ]
+129 verbose reify failed optional dependency C:\Users\kri20\Documents\Codex\2026-09-01\build-x20\node_modules\@esbuild\aix-ppc64
+130 silly reify mark deleted [
+130 silly reify   'C:\\Users\\kri20\\Documents\\Codex\\2026-09-01\\build-x20\\node_modules\\@esbuild\\aix-ppc64'
+130 silly reify ]
+131 http cache csstype@https://registry.npmjs.org/csstype/-/csstype-3.2.3.tgz 0ms (cache hit)
+132 silly tarball no local data for csstype@https://registry.npmjs.org/csstype/-/csstype-3.2.3.tgz. Extracting by manifest.
+133 http cache @types/react-dom@https://registry.npmjs.org/@types/react-dom/-/react-dom-18.3.0.tgz 0ms (cache hit)
+134 http cache @types/react@https://registry.npmjs.org/@types/react/-/react-18.3.3.tgz 0ms (cache hit)
+135 http cache @types/prop-types@https://registry.npmjs.org/@types/prop-types/-/prop-types-15.7.15.tgz 0ms (cache hit)
+136 silly tarball no local data for @types/react-dom@https://registry.npmjs.org/@types/react-dom/-/react-dom-18.3.0.tgz. Extracting by manifest.
+137 silly tarball no local data for @types/react@https://registry.npmjs.org/@types/react/-/react-18.3.3.tgz. Extracting by manifest.
+138 silly tarball no local data for @types/prop-types@https://registry.npmjs.org/@types/prop-types/-/prop-types-15.7.15.tgz. Extracting by manifest.
+139 http fetch GET 200 https://registry.npmjs.org/@types/react-dom/-/react-dom-18.3.0.tgz 103ms (cache miss)
+140 http fetch GET 200 https://registry.npmjs.org/csstype/-/csstype-3.2.3.tgz 107ms (cache miss)
+141 http fetch GET 200 https://registry.npmjs.org/@types/prop-types/-/prop-types-15.7.15.tgz 124ms (cache miss)
+142 http fetch GET 200 https://registry.npmjs.org/@types/react/-/react-18.3.3.tgz 245ms (cache miss)
+143 silly ADD node_modules/csstype
+144 silly ADD node_modules/@types/prop-types
+145 silly ADD node_modules/@types/react-dom
+146 silly ADD node_modules/@types/react
+147 silly ADD
+148 silly ADD
+149 silly ADD
+150 silly ADD
+151 silly ADD
+152 silly ADD
+153 silly ADD
+154 silly ADD
+155 silly ADD
+156 silly ADD
+157 silly ADD
+158 silly ADD
+159 silly ADD
+160 silly ADD
+161 silly ADD
+162 silly ADD
+163 silly ADD
+164 silly ADD
+165 silly ADD
+166 silly ADD
+167 silly ADD
+168 silly ADD
+169 silly ADD
+170 silly ADD
+171 silly ADD
+172 silly ADD
+173 silly ADD
+174 silly ADD
+175 silly ADD
+176 silly ADD
+177 silly ADD
+178 silly ADD
+179 silly ADD
+180 silly ADD
+181 silly ADD
+182 silly ADD
+183 silly ADD
+184 silly ADD
+185 silly ADD
+186 silly ADD
+187 silly ADD
+188 silly ADD
+189 silly ADD
+190 silly ADD
+191 silly ADD
+192 silly ADD
+193 silly ADD
+194 verbose cwd C:\Users\kri20\Documents\Codex\2026-09-01\build-x20
+195 verbose os Windows_NT 10.0.26200
+196 verbose node v22.15.0
+197 verbose npm  v10.9.2
+198 notice
+198 notice New major version of npm available! 10.9.2 -> 12.1.0
+198 notice Changelog: https://github.com/npm/cli/releases/tag/v12.1.0
+198 notice To update run: npm install -g npm@12.1.0
+198 notice  { force: true, [Symbol(proc-log.meta)]: true }
+199 verbose exit 0
+200 info ok

@@ -1,0 +1,62 @@
+.scan-hairline {
+  animation: scan 4s ease-in-out infinite;
+}
+
+@keyframes scan {
+  0%, 100% {
+    transform: translateY(-90px);
+    opacity: 0.2;
+  }
+
+  50% {
+    transform: translateY(90px);
+    opacity: 0.8;
+  }
+}
+
+.evidence-image {
+  animation: subtlePulse 6s ease-in-out infinite;
+}
+
+@keyframes subtlePulse {
+  0%, 100% {
+    filter: brightness(0.92);
+  }
+
+  50% {
+    filter: brightness(1.04);
+  }
+}
+
+.button,
+.run,
+.open-link,
+.dropzone,
+nav a {
+  transition:
+    transform 0.2s ease,
+    opacity 0.2s ease,
+    border-color 0.2s ease,
+    background 0.2s ease;
+}
+
+.button:hover {
+  transform: translateY(-2px);
+}
+
+.run:not(:disabled):hover {
+  transform: translateY(-1px);
+}
+
+.dropzone:hover {
+  border-color: #666a62;
+  background: #141512;
+}
+
+.button:focus-visible,
+.run:focus-visible,
+.menu:focus-visible,
+.uploaded-info button:focus-visible {
+  outline: 2px solid #cfd2c9;
+  outline-offset: 3px;
+}
